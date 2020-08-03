@@ -61,6 +61,7 @@ public class DxfAnalysis {
         }
         int i = 0;
         String str = lineList.get(i);
+
         //未到文件结束标志
         while (!FileStructEnum.FILE_END.getCode().equals(str)) {
             str = lineList.get(++i);
@@ -419,23 +420,25 @@ public class DxfAnalysis {
                 if (!DecimalCheckUtil.check(str.trim())) {
                     throw new DxfAnalysisException(DxfAnalysisErrorEnum.POLY_LINE_NOT_COORDINATE_X);
                 }
-            }
-            //顶点的y坐标
-            if (PolyLineEnum.COORDINATE_Y.getCode().equals(str)) {
+                //顶点的y坐标
                 str = lineList.get(++i);
-                vertex.setY(new BigDecimal(str.trim()));
-                if (!DecimalCheckUtil.check(str.trim())) {
-                    throw new DxfAnalysisException(DxfAnalysisErrorEnum.POLY_LINE_NOT_COORDINATE_Y);
+                if (PolyLineEnum.COORDINATE_Y.getCode().equals(str)) {
+                    str = lineList.get(++i);
+                    vertex.setY(new BigDecimal(str.trim()));
+                    if (!DecimalCheckUtil.check(str.trim())) {
+                        throw new DxfAnalysisException(DxfAnalysisErrorEnum.POLY_LINE_NOT_COORDINATE_Y);
+                    }
                 }
-            }
-            //顶点的z坐标
-            if (PolyLineEnum.COORDINATE_Z.getCode().equals(str)) {
+                //顶点的z坐标
                 str = lineList.get(++i);
-                vertex.setZ(new BigDecimal(str.trim()));
-                if (!DecimalCheckUtil.check(str.trim())) {
-                    throw new DxfAnalysisException(DxfAnalysisErrorEnum.POLY_LINE_NOT_COORDINATE_Z);
+                if (PolyLineEnum.COORDINATE_Z.getCode().equals(str)) {
+                    str = lineList.get(++i);
+                    vertex.setZ(new BigDecimal(str.trim()));
+                    if (!DecimalCheckUtil.check(str.trim())) {
+                        throw new DxfAnalysisException(DxfAnalysisErrorEnum.POLY_LINE_NOT_COORDINATE_Z);
+                    }
+                    vertices.add(vertex);
                 }
-                vertices.add(vertex);
             }
             //顶点结束
             if (PolyLineEnum.SEQEND.getCode().equals(str)) {

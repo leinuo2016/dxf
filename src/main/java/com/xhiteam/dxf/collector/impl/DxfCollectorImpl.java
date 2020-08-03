@@ -1,5 +1,6 @@
 package com.xhiteam.dxf.collector.impl;
 
+import com.google.common.base.Strings;
 import com.xhiteam.dxf.analysis.DxfAnalysis;
 import com.xhiteam.dxf.collector.DxfCollector;
 import com.xhiteam.dxf.continuity.DxfLine;
@@ -43,6 +44,12 @@ public class DxfCollectorImpl implements DxfCollector {
     private Map<String, List<GeometricObject>> baseMap;
 
     /**
+     * 编码格式
+     */
+
+    private String charSet;
+
+    /**
      * 构造方法
      *
      * @param file dxf文件
@@ -50,6 +57,19 @@ public class DxfCollectorImpl implements DxfCollector {
      */
     public DxfCollectorImpl(File file) throws IOException {
         this.file = file;
+        baseMap = getBaseMap();
+    }
+
+    /**
+     * 构造方法
+     *
+     * @param file dxf文件
+     * @param chartSet 文件编码
+     * @throws IOException IO异常
+     */
+    public DxfCollectorImpl(File file,String chartSet) throws IOException {
+        this.file = file;
+        this.charSet = chartSet;
         baseMap = getBaseMap();
     }
 
@@ -153,8 +173,8 @@ public class DxfCollectorImpl implements DxfCollector {
     private Map<String, List<GeometricObject>> getBaseMap() throws IOException {
         // 包装文件流
         FileInputStream inputStream = new FileInputStream(file);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
+        InputStreamReader inputStreamReader = Strings.isNullOrEmpty(charSet)?new InputStreamReader(inputStream):new InputStreamReader(inputStream,charSet);
+        BufferedReader reader = new BufferedReader(inputStreamReader);
         //读取文件获取数据，返回map
         Map<String, List<GeometricObject>> map = DxfAnalysis.getGeometricListMap(reader);
 

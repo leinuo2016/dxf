@@ -16,6 +16,8 @@ import java.io.IOException;
  */
 public class DXF {
 
+
+
     /**
      * 上传文件、返回DXF数据采集者
      * @throws IOException io异常
@@ -30,6 +32,24 @@ public class DXF {
             throw new DxfFileException(DxfFileErrorEnum.DXF_FILE_ERROR.getMsg() + file.getName());
         }
         return new DxfCollectorImpl(file);
+    }
+
+
+    /**
+     * 上传文件、返回DXF数据采集者
+     * @param file 上传的文件
+     * @param charSet 文件编码
+     * @return 数据采集者
+     * @throws IOException io异常
+     */
+    public static DxfCollector build(File file,String charSet) throws IOException {
+        if (file == null) {
+            throw new FileNotFoundException();
+        }
+        if (!file.getName().endsWith(FileConstant.FILE_EXTENSION)) {
+            throw new DxfFileException(DxfFileErrorEnum.DXF_FILE_ERROR.getMsg() + file.getName());
+        }
+        return new DxfCollectorImpl(file,charSet);
     }
 
     /**

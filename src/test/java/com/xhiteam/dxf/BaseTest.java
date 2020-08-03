@@ -14,6 +14,7 @@ import java.io.IOException;
 public class BaseTest {
 
     public File file = new File("C:\\Users\\华硕电脑\\Desktop\\数据解析\\cdx171761_scenario.dxf");
+    //public File file =  new File("/home/leinuo/gitHub/dxf/src/main/resource/测试数据.dxf");
     //C:\Users\华硕电脑\Desktop\数据解析\cdx171761_scenario.dxf
     //G:\测试案例数据\测试案例数据\xhf183022_scenario\xhf183022_scenario.dxf
 
@@ -21,7 +22,7 @@ public class BaseTest {
 
     {
         try {
-            collector = DXF.build(file);
+            collector = DXF.build(file,"GBK");
         } catch (IOException e) {
             e.printStackTrace();
         }
